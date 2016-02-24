@@ -107,7 +107,8 @@
 
 
 /turf/simulated/floor/engine/ex_act(severity,target)
-	switch(severity)
+	//possible todo: make broken
+	/*switch(severity)
 		if(1)
 			if(prob(80))
 				ReplaceWithLattice()
@@ -117,7 +118,7 @@
 				make_plating(1)
 		if(2)
 			if(prob(50))
-				make_plating(1)
+				make_plating(1)*/
 
 /turf/simulated/floor/engine/n2o
 	name = "n2o floor"
