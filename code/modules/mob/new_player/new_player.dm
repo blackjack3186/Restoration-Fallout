@@ -324,12 +324,14 @@
 
 	var/dat = "<div class='notice'>Round Duration: [round(hours)]h [round(mins)]m</div>"
 
-	switch(SSshuttle.emergency.mode)
+
+	//Emergency shuttle lines break this function for some reason
+	/*switch(SSshuttle.emergency.mode)
 		if(SHUTTLE_ESCAPE)
 			dat += "<div class='notice red'>The station has been evacuated.</div><br>"
 		if(SHUTTLE_CALL)
 			if(!SSshuttle.canRecall())
-				dat += "<div class='notice red'>The station is currently undergoing evacuation procedures.</div><br>"
+				dat += "<div class='notice red'>The station is currently undergoing evacuation procedures.</div><br>"*/
 
 	var/available_job_count = 0
 	for(var/datum/job/job in SSjob.occupations)
