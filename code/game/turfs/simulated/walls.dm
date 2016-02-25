@@ -68,7 +68,8 @@
 	switch(severity)
 		if(1)
 			//SN src = null
-			src.ChangeTurf(src.baseturf)
+			//src.ChangeTurf(src.baseturf)
+			dismantle_wall(1, 1)
 			return
 		if(2)
 			if (prob(50))

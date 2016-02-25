@@ -59,7 +59,7 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 		return
 
 	switch(severity)
-		if(1)
+		/*if(1)
 			src.ChangeTurf(src.baseturf)
 		if(2)
 			switch(pick(1,2;75,3))
@@ -75,6 +75,17 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 						src.break_tile()
 					src.hotspot_expose(1000,CELL_VOLUME)
 					if(prob(33)) new /obj/item/stack/sheet/metal(src)
+		*/
+		if (1)
+			src.break_tile_to_plating()
+		if (2)
+			if (prob(80))
+				src.break_tile_to_plating
+			else
+				src.break_tile()
+			src.hotspot_expose(1000,CELL_VOLUME)
+			if(prob(33))
+				new /obj/item/stack/sheet/metal(src)
 		if(3)
 			if (prob(50))
 				src.break_tile()
