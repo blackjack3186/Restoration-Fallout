@@ -4,7 +4,8 @@ var/datum/subsystem/job/SSjob
 	name = "Jobs"
 	priority = 5
 
-	var/list/occupations = list()		//List of all jobs
+	var/list/occupations = list()		//List of all Vault jobs
+	var/list/desert_occupations = list() //List of all desert 'jobs'
 	var/list/unassigned = list()		//Players who need jobs
 	var/list/job_debug = list()			//Debug info
 	var/initial_players_to_assign = 0 	//used for checking against population caps
@@ -21,8 +22,19 @@ var/datum/subsystem/job/SSjob
 		LoadJobs()
 	..()
 
+/datum/subsystem/job/proc/SetupDesertOccupations()
+	desert_occupations = list()
+	var/list/all_jobs = subtypesof(/datum/job)
+	for (var/J in all_jobs)
+		var/datum/job/job = new J()
+		if(!job)
+			continue
+		if(job.faction != "Desert")
+			continue
+		desert_occupations += job
 
 /datum/subsystem/job/proc/SetupOccupations(faction = "Station")
+	SetupDesertOccupations()
 	occupations = list()
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
