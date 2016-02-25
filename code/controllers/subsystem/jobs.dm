@@ -71,6 +71,16 @@ var/datum/subsystem/job/SSjob
 			return J
 	return null
 
+/datum/subsystem/job/proc/GetDesertJob(rank)
+	if(!rank)
+		return null
+	for(var/datum/job/J in desert_occupations)
+		if(!J)
+			continue
+		if(J.title == rank)
+			return J
+	return null
+
 /datum/subsystem/job/proc/AssignRole(mob/new_player/player, rank, latejoin=0)
 	Debug("Running AR, Player: [player], Rank: [rank], LJ: [latejoin]")
 	if(player && player.mind && rank)
@@ -358,7 +368,11 @@ var/datum/subsystem/job/SSjob
 
 //Gives the player the stuff he should have with his rank
 /datum/subsystem/job/proc/EquipRank(mob/living/H, rank, joined_late=0)
-	var/datum/job/job = GetJob(rank)
+	var/datum/job/job
+	if (joined_late==0)
+		job = GetJob(rank)
+	else
+		job = GetDesertJob(rank)
 
 	H.job = rank
 
@@ -401,12 +415,15 @@ var/datum/subsystem/job/SSjob
 		job.apply_fingerprints(H)
 
 	H << "<b>You are the [rank].</b>"
-	H << "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"
-	H << "<b>To speak on your departments radio, use the :h button. To see others, look closely at your headset.</b>"
-	if(job.req_admin_notify)
-		H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"
-	if(config.minimal_access_threshold)
-		H << "<FONT color='blue'><B>As this station was initially staffed with a [config.jobs_have_minimal_access ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></font>"
+	if (!joined_late)
+		H << "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"
+		H << "<b>To speak on your departments radio, use the :h button. To see others, look closely at your headset.</b>"
+		if(job.req_admin_notify)
+			H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"
+		if(config.minimal_access_threshold)
+			H << "<FONT color='blue'><B>As this station was initially staffed with a [config.jobs_have_minimal_access ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] have been added to your ID card.</B></font>"
+	else
+		H << "<b>As the [rank], your main and only goal is to survive in the wasteland.</b>"
 	return 1
 
 
