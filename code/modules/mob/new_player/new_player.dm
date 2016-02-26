@@ -240,7 +240,7 @@
 						vote_on_poll(pollid, optionid, 1)
 
 /mob/new_player/proc/IsJobAvailable(rank)
-	var/datum/job/job = SSjob.GetJob(rank)
+	/*var/datum/job/job = SSjob.GetJob(rank)
 	if(!job)
 		return 0
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
@@ -257,7 +257,10 @@
 	if(!job.player_old_enough(src.client))
 		return 0
 	if(config.enforce_human_authority && !client.prefs.pref_species.qualifies_for_rank(rank, client.prefs.features))
-		return 0
+		return 0*/
+
+	//wasteland jobs are always available
+
 	return 1
 
 
@@ -324,20 +327,26 @@
 
 	var/dat = "<div class='notice'>Round Duration: [round(hours)]h [round(mins)]m</div>"
 
-	switch(SSshuttle.emergency.mode)
+
+	//Emergency shuttle lines break this function for some reason
+	/*switch(SSshuttle.emergency.mode)
 		if(SHUTTLE_ESCAPE)
 			dat += "<div class='notice red'>The station has been evacuated.</div><br>"
 		if(SHUTTLE_CALL)
 			if(!SSshuttle.canRecall())
-				dat += "<div class='notice red'>The station is currently undergoing evacuation procedures.</div><br>"
+				dat += "<div class='notice red'>The station is currently undergoing evacuation procedures.</div><br>"*/
 
-	var/available_job_count = 0
+	//not needed, wasteland is always available
+	/*var/available_job_count = 0
 	for(var/datum/job/job in SSjob.occupations)
 		if(job && IsJobAvailable(job.title))
-			available_job_count++;
+			available_job_count++;*/
 
-	dat += "<div class='clearBoth'>Choose from the following open positions:</div><br>"
+	dat += "<div class='clearBoth'>Spawn as wastelander:</div><br>"
 	dat += "<div class='jobs'><div class='jobsColumn'>"
+
+	//not needed, the only job is scavenger
+	/*
 	var/job_count = 0
 	for(var/datum/job/job in SSjob.occupations)
 		if(job && IsJobAvailable(job.title))
@@ -349,10 +358,11 @@
 				position_class = "commandPosition"
 			dat += "<a class='[position_class]' href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title] ([job.current_positions])</a><br>"
 	if(!job_count) //if there's nowhere to go, assistant opens up.
-		for(var/datum/job/job in SSjob.occupations)
-			if(job.title != "Assistant") continue
-			dat += "<a class='otherPosition' href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title] ([job.current_positions])</a><br>"
-			break
+	*/
+
+	//add all desert 'jobs'
+	for(var/datum/job/job in SSjob.desert_occupations)
+		dat += "<a class='otherPosition' href='byond://?src=\ref[src];SelectedJob=[job.title]'>[job.title]</a><br>"
 	dat += "</div></div>"
 
 	// Removing the old window method but leaving it here for reference
