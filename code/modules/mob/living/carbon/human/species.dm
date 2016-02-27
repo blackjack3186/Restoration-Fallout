@@ -724,10 +724,21 @@
 /datum/species/proc/update_health_hud(mob/living/carbon/human/H)
 	return 0
 
-/datum/species/proc/handle_mutations_and_radiation(mob/living/carbon/human/H)
+/datum/species/proc/handle_mutations_and_radiation(mob/living/carbon/human/target)
+
+	var/totalRads = target.getToxLoss()
 
 	if(!(RADIMMUNE in specflags))
-		if(H.radiation)
+		if (totalRads>=75&&prob(1 + 2*(totalRads-75)/25))
+			target.Weaken(3 + 7 * (totalRads-75)/25)
+			target << "<span class='danger'>You feel weak.</span>"
+			target.emote("collapse")
+		if (totalRads>=50&&prob(1 + 9*(totalRads-50)/50))
+			target << "<span class='warning'>You feel nauseous!</span>"
+			target.vomit(20)
+
+
+		/*if(H.radiation)
 			if (H.radiation > 100)
 				H.Weaken(10)
 				H << "<span class='danger'>You feel weak.</span>"
@@ -753,7 +764,7 @@
 						H << "<span class='danger'>You mutate!</span>"
 						randmutb(H)
 						H.emote("gasp")
-						H.domutcheck()
+						H.domutcheck()*/
 		return 0
 	return 1
 
@@ -1017,6 +1028,36 @@
 			H.forcesay(hit_appends)	//forcesay checks stat already.
 		return
 
+/datum/species/proc/irradiate(mob/living/carbon/human/target, rads)
+	//called on radiation impact
+	//counts the total radiation damage and applies instant effects
+	//toxin will be replaced with radiation completely
+
+	var/totalRads = target.getToxLoss()
+
+	var/immunity = 0.0
+	target.adjustToxLoss(rads*(1-immunity))
+	if(!(RADIMMUNE in specflags))
+		if(!(target.hair_style == "Bald"))
+			if (totalRads>=25&&prob(totalRads/200))
+				if (!(target.hair_style == "Balding Hair"))
+					target << "<span class='warning'>Your hair starts to fall out in clumps...</span>"
+					spawn(50)
+						target.hair_style = "Balding Hair"
+						target.update_hair()
+				else
+					target << "<span class='warning'>Your last hair is gone</span>"
+					spawn(50)
+						target.facial_hair_style = "Shaved"
+						target.hair_style = "Bald"
+						target.update_hair()
+		if (totalRads>=50&&prob(2))
+			target << "<span class='danger'>You feel different...</span>"
+			randmutb(target)
+			target.emote("gasp")
+			target.domutcheck()
+
+
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H)
 	blocked = (100-(blocked+armor))/100
 	if(!damage || blocked <= 0)
@@ -1032,6 +1073,7 @@
 		return 0
 
 	damage = (damage * blocked)
+	//why is block applied two times?
 
 	switch(damagetype)
 		if(BRUTE)
@@ -1043,7 +1085,8 @@
 			if(organ.take_damage(0, damage*burnmod))
 				H.update_damage_overlays(0)
 		if(TOX)
-			H.adjustToxLoss(damage * blocked)
+			//H.adjustToxLoss(damage * blocked)
+			irradiate(H, damage)
 		if(OXY)
 			H.adjustOxyLoss(damage * blocked)
 		if(CLONE)
