@@ -2,14 +2,14 @@
 Captain
 */
 /datum/job/captain
-	title = "Captain"
-	flag = CAPTAIN
+	title = "Overseer"
+	flag = OVERSEER
 	department_head = list("Centcom")
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
-	supervisors = "Nanotrasen officials and Space law"
+	supervisors = "Vault-tec"
 	selection_color = "#ccccff"
 	req_admin_notify = 1
 	minimal_player_age = 14
@@ -24,7 +24,7 @@ Captain
 
 
 /datum/outfit/job/captain
-	name = "Captain"
+	name = "Overseer"
 
 	id = /obj/item/weapon/card/id/gold
 	belt = /obj/item/device/pda/captain
@@ -44,8 +44,8 @@ Captain
 /datum/outfit/job/captain/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	..()
 
-	var/obj/item/clothing/under/U = H.w_uniform
-	U.attachTie(new /obj/item/clothing/tie/medal/gold/captain())
+	//var/obj/item/clothing/under/U = H.w_uniform
+	//U.attachTie(new /obj/item/clothing/tie/medal/gold/captain())
 
 	if(visualsOnly)
 		return
@@ -55,7 +55,8 @@ Captain
 	L.implanted = 1
 	H.sec_hud_set_implants()
 
-	minor_announce("Captain [H.real_name] on deck!")
+	//no captain, no deck
+	//minor_announce("Captain [H.real_name] on deck!")
 
 /*
 Head of Personnel
@@ -63,7 +64,7 @@ Head of Personnel
 /datum/job/hop
 	title = "Head of Personnel"
 	flag = HOP
-	department_head = list("Captain")
+	department_head = list("Overseer")
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1

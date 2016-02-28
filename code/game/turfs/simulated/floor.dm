@@ -80,7 +80,7 @@ var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","
 			src.break_tile_to_plating()
 		if (2)
 			if (prob(80))
-				src.break_tile_to_plating
+				src.break_tile_to_plating()
 			else
 				src.break_tile()
 			src.hotspot_expose(1000,CELL_VOLUME)
