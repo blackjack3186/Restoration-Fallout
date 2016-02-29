@@ -1,7 +1,7 @@
 /obj/structure/chair
 	name = "chair"
 	desc = "You sit in this. Either by will or force.\n<span class='notice'>Alt-click to rotate it clockwise.</span>"
-	icon = 'icons/obj/chairs.dmi'
+	icon = 'icons/obj/objects.dmi'
 	icon_state = "chair"
 	anchored = 1
 	can_buckle = 1
@@ -10,12 +10,28 @@
 	var/buildstacktype = /obj/item/stack/sheet/metal
 	var/buildstackamount = 1
 	var/hold_icon = "chair" // if null it can't be picked up
+	var/image/chair_back_overlay
+	var/overlayAdded = 0
+
+/obj/structure/chair/proc/addOverlay()
+	//add overlay if it did not exist
+	if (!overlayAdded)
+		overlays += chair_back_overlay
+		overlayAdded = 1
+
+/obj/structure/chair/proc/removeOverlay()
+	//safe way to remove chair back overlay
+	if (overlayAdded)
+		overlays -= chair_back_overlay
+		overlayAdded = 0
 
 /obj/structure/chair/New()
 	..()
 	handle_layer()
+	chair_back_overlay = image('icons/obj/objects.dmi')
 
 /obj/structure/chair/deconstruct()
+	removeOverlay()
 	if(buildstacktype)
 		new buildstacktype(loc,buildstackamount)
 	..()
@@ -80,6 +96,10 @@
 	return 1
 
 /obj/structure/chair/proc/handle_layer()
+	if (dir==1)
+		addOverlay()
+	else
+		removeOverlay()
 	if(dir == NORTH)
 		layer = FLY_LAYER
 	else
