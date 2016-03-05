@@ -99,6 +99,37 @@
 			else
 				. += T
 
+/obj/docking_port/proc/fill_with_turf(_x, _y, _z, _dir)
+	//fill all turfs in bounding box of dock with hardcoded tile
+	if(!_dir)
+		_dir = dir
+	if(!_x)
+		_x = x
+	if(!_y)
+		_y = y
+	if(!_z)
+		_z = z
+	var/cos = 1
+	var/sin = 0
+	switch(_dir)
+		if(WEST)
+			cos = 0
+			sin = 1
+		if(SOUTH)
+			cos = -1
+			sin = 0
+		if(EAST)
+			cos = 0
+			sin = -1
+	var/xi
+	var/yi
+	for(var/dx=0, dx<width, ++dx)
+		for(var/dy=0, dy<height, ++dy)
+			xi = _x + (dx-dwidth)*cos - (dy-dheight)*sin
+			yi = _y + (dy-dheight)*cos + (dx-dwidth)*sin
+			new /turf/simulated/floor/plating(locate(xi, yi, _z) )
+
+
 #ifdef DOCKING_PORT_HIGHLIGHT
 //Debug proc used to highlight bounding area
 /obj/docking_port/proc/highlight(_color)
@@ -274,6 +305,8 @@
 			previous = S0
 	else
 		WARNING("shuttle \"[id]\" could not enter transit space. S0=[S0 ? S0.id : "null"] S1=[S1 ? S1.id : "null"]")
+	if (previous)
+		previous.fill_with_turf(previous.x, previous.y, previous.z, previous.dir)
 
 //default shuttleRotate
 /atom/proc/shuttleRotate(rotation)
@@ -298,6 +331,7 @@
 //it handles all the generic behaviour, such as sanity checks, closing doors on the shuttle, stunning mobs, etc
 /obj/docking_port/mobile/proc/dock(obj/docking_port/stationary/S1)
 	. = canDock(S1)
+	WARNING("shuttle dock status \"[.]\" before dock")
 	if(.)
 		throw EXCEPTION("dock(): shuttle cannot dock")
 		return .
@@ -343,6 +377,7 @@
 		var/turf/T0 = L0[i]
 		if(!T0)
 			continue
+		//t0 is shuttle
 		var/turf/T1 = L1[i]
 		if(!T1)
 			continue
