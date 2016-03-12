@@ -130,3 +130,6 @@
 	var/matrix/M = transform
 	M.Turn(rotation)
 	transform = M
+
+/turf/simulated/wall/invisible
+	icon = 'icons/misc/invisible.dmi'

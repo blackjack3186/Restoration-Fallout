@@ -188,10 +188,10 @@
 		sleep(50)
 		playsound(get_turf(src), 'sound/effects/phasein.ogg', 100, 1)
 		PoolOrNew(/obj/effect/particle_effect/smoke, src.loc)
-		load()
+		//load()
 		qdel(src)
 
-/obj/item/weapon/survivalcapsule/proc/load()
+/*/obj/item/weapon/survivalcapsule/proc/load()
 	var/list/blacklist = list(/area/shuttle) //Shuttles move based on area, and we'd like not to break them
 	var/turf/start_turf = get_turf(src.loc)
 	var/turf/cur_turf
@@ -263,4 +263,4 @@
 		A.overlays.Cut()
 		var/area/Z = get_area(A)
 		if(!is_type_in_list(Z, blacklist))
-			L.contents += A
+			L.contents += A*/
