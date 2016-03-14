@@ -62,7 +62,7 @@
 #define NOGUNS			512
 #define NOBLOOD			1024
 #define NOFIRE			2048
-#define VIRUSIMMUNE		4096
+#define FRAGILE			4096
 #define PIERCEIMMUNE	8192
 #define NOTRANSSTING	16384
 

@@ -127,9 +127,15 @@
 		if(use_skintones)
 			return "[H.skin_tone]_[(H.gender == FEMALE) ? "f" : "m"]"
 		else
-			return "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
+			if (id=="ghoul")
+				return "zombie"
+			else
+				return "[id]_[(H.gender == FEMALE) ? "f" : "m"]"
 	else
-		return "[id]"
+		if (id=="ghoul")
+			return "zombie"
+		else
+			return "[id]"
 
 /datum/species/proc/update_color(mob/living/carbon/human/H, forced_colour)
 	H.remove_overlay(SPECIES_LAYER)
@@ -1036,8 +1042,8 @@
 	var/totalRads = target.getToxLoss()
 
 	var/immunity = 0.0
-	target.adjustToxLoss(rads*(1-immunity))
 	if(!(RADIMMUNE in specflags))
+		target.adjustToxLoss(rads*(1-immunity))
 		if(!(target.hair_style == "Bald"))
 			if (totalRads>=25&&prob(totalRads/200))
 				if (!(target.hair_style == "Balding Hair"))
@@ -1056,6 +1062,9 @@
 			randmutb(target)
 			target.emote("gasp")
 			target.domutcheck()
+	else
+		var/radHeal = rads/10
+		target.heal_overall_damage(radHeal,radHeal)
 
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H)
