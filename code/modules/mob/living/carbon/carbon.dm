@@ -616,7 +616,7 @@ var/const/GALOSHES_DONT_HELP = 4
 					T.add_vomit_floor(src)
 				nutrition -= lost_nutrition
 				if(stun)
-					adjustToxLoss(-3)
+					adjustToxLoss(-0.5)
 			T = get_step(T, dir)
 			if (is_blocked_turf(T))
 				break
