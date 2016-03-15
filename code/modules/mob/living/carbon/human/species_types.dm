@@ -40,6 +40,12 @@
 		H.faction |= "slime"
 		return 1
 
+/datum/species/human/spec_life(mob/living/carbon/human/H)
+	if (H.getToxLoss()>175 && prob(1))
+		H << "<span class='danger'>You transform!</span>"
+		H.set_species(/datum/species/ghoul)
+		H.adjustToxLoss(-100) //give a chance to live
+
 //Curiosity killed the cat's wagging tail.
 datum/species/human/spec_death(gibbed, mob/living/carbon/human/H)
 	if(H)
