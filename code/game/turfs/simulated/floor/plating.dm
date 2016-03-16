@@ -249,14 +249,4 @@
 	nitrogen = 0
 	temperature = TCMB
 
-/turf/simulated/floor/RailLeft
-	name = "Monorail"
-	icon_state = "MonoL"
-	desc = "Careful! Under High Voltage!"
-
-/turf/simulated/floor/RailRight
-	name = "Monorail"
-	icon_state = "MonoR"
-	desc = "Careful! Under High Voltage!"
-
 
