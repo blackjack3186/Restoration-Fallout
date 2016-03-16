@@ -77,7 +77,8 @@ var/global/datum/controller/master/Master = new()
 	// Pick a random away mission.
 	createRandomZlevel()
 	// Generate asteroid.
-	make_mining_asteroid_secrets()
+	//todo: did i break it?
+	//make_mining_asteroid_secrets()
 	// Set up Z-level transistions.
 	setup_map_transitions()
 

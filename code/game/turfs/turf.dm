@@ -373,3 +373,9 @@
 	desc = "Extremely densely-packed sheets of ice and rock, forged over the years of the harsh cold."
 	icon = 'icons/turf/walls.dmi'
 	icon_state = "icerock"
+
+/turf/indestructible/tunnel
+	name = "tunnel"
+	desc = "Just rapid mobing wall"
+	icon = 'icons/turf/walls.dmi'
+	icon_state = "Moving_tunnel"
