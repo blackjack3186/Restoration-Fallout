@@ -101,6 +101,11 @@
 	screen_loc = "WEST,SOUTH to EAST,NORTH"
 	icon_state = "flash"
 
+/obj/screen/fullscreen/filteroverlay
+	icon = 'icons/mob/screen_gen.dmi'
+	screen_loc = "WEST,SOUTH to EAST,NORTH"
+	icon_state = "filter"
+
 /obj/screen/fullscreen/flash/noise
 	icon = 'icons/mob/screen_gen.dmi'
 	screen_loc = "WEST,SOUTH to EAST,NORTH"

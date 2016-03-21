@@ -1,5 +1,6 @@
 /mob/living/carbon/New()
 	create_reagents(1000)
+	overlay_fullscreen("colorfilter", /obj/screen/fullscreen/filteroverlay)
 	..()
 
 /mob/living/carbon/prepare_huds()
